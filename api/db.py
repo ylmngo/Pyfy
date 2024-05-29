@@ -7,7 +7,7 @@ async def open_db_conn():
     try:
         await db.connect() 
     except Exception as e: 
-        print(e) 
+        raise e 
     return db 
 
 async def close_db_conn(db: Database):

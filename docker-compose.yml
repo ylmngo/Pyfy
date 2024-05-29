@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  server: 
+    build: 
+      context: ./
+      dockerfile: Dockerfile 
+    volumes:
+      - ./:/pyfy/  
+    command: uvicorn api.server:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    ports: 
+      - 8000:8000
+    depends_on:
+      - db
+      - redis
+
+  db: 
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=freeroam
+      - POSTGRES_USER=gapi 
+      - POSTGRES_DB=gofy
+    ports:
+      - 5432:5432
+
+  redis: 
+    image: redis:latest 
+    restart: always 
+    ports:
+      - 6379:6379
+  
+volumes: 
+  postgres_data:

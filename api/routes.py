@@ -98,3 +98,6 @@ async def login(req: Request, user_repo: UserRepository = Depends(get_repository
 
     return {"response": "Succesfully logged in", "access_token": token}
     
+@router.get("/health")
+async def heatlh(): 
+    return {"status": "Active"}
